@@ -144,11 +144,50 @@ runs:
           cd $THEOS/include && git clone --quiet --depth=1 https://github.com/PoomSmart/PSHeader.git
         fi
 
+    - name: Clone YouPiP
+      if: ${{ inputs.enable_youpip == 'true' }}
+      shell: bash
+      run: git clone --quiet --depth=1 https://github.com/PoomSmart/YouPiP.git
+
+    - name: Clone YTUHD
+      if: ${{ inputs.enable_ytuhd == 'true' }}
+      shell: bash
+      run: git clone --quiet --depth=1 https://github.com/Tonwalter888/YTUHD.git
+
+    - name: Clone Return-YouTube-Dislikes
+      if: ${{ inputs.enable_ryd == 'true' }}
+      shell: bash
+      run: git clone --quiet --depth=1 https://github.com/PoomSmart/Return-YouTube-Dislikes.git
+
+    - name: Clone YTABConfig
+      if: ${{ inputs.enable_ytabc == 'true' }}
+      shell: bash
+      run: git clone --quiet --depth=1 https://github.com/PoomSmart/YTABConfig.git
+
+    - name: Clone YouGroupSettings
+      if: ${{ inputs.enable_youpip == 'true' || inputs.enable_ytuhd == 'true' || inputs.enable_yq == 'true' || inputs.enable_ryd == 'true' || inputs.enable_demc == 'true' }}
+      shell: bash
+      run: git clone --quiet --depth=1 https://github.com/PoomSmart/YouGroupSettings.git
+
+    - name: Clone YouQuality
+      if: ${{ inputs.enable_yq == 'true' }}
+      shell: bash
+      run: git clone --quiet --depth=1 https://github.com/PoomSmart/YouQuality.git
+
+    - name: Clone YTVideoOverlay
+      if: ${{ inputs.enable_yq == 'true' || inputs.enable_youpip == 'true' || inputs.enable_ytuhd == 'true' }}
+      shell: bash
+      run: git clone --quiet --depth=1 https://github.com/PoomSmart/YTVideoOverlay.git
+
+    - name: Clone DontEatMyContent
+      if: ${{ inputs.enable_demc == 'true' }}
+      shell: bash
+      run: git clone --quiet --depth=1 https://github.com/therealFoxster/DontEatMyContent.git
+
     - name: Build YouPiP
       if: ${{ inputs.enable_youpip == 'true' }}
       shell: bash
       run: |
-        git clone --quiet --depth=1 https://github.com/PoomSmart/YouPiP.git
         cd YouPiP && make clean package DEBUG=0 FINALPACKAGE=1
         mv packages/*.deb ../youpip.deb
 
@@ -156,7 +195,6 @@ runs:
       if: ${{ inputs.enable_ytuhd == 'true' }}
       shell: bash
       run: |
-        git clone --quiet --depth=1 https://github.com/Tonwalter888/YTUHD.git
         cd YTUHD && make clean package DEBUG=0 FINALPACKAGE=1
         mv packages/*.deb ../ytuhd.deb
 
@@ -164,7 +202,6 @@ runs:
       if: ${{ inputs.enable_ryd == 'true' }}
       shell: bash
       run: |
-        git clone --quiet --depth=1 https://github.com/PoomSmart/Return-YouTube-Dislikes.git
         cd Return-YouTube-Dislikes && make clean package DEBUG=0 FINALPACKAGE=1
         mv packages/*.deb ../ryd.deb
 
@@ -172,7 +209,6 @@ runs:
       if: ${{ inputs.enable_ytabc == 'true' }}
       shell: bash
       run: |
-        git clone --quiet --depth=1 https://github.com/PoomSmart/YTABConfig.git
         cd YTABConfig && make clean package DEBUG=0 FINALPACKAGE=1
         mv packages/*.deb ../ytabc.deb
 
@@ -180,7 +216,6 @@ runs:
       if: ${{ inputs.enable_youpip == 'true' || inputs.enable_ytuhd == 'true' || inputs.enable_yq == 'true' || inputs.enable_ryd == 'true' || inputs.enable_demc == 'true' }}
       shell: bash
       run: |
-        git clone --quiet --depth=1 https://github.com/PoomSmart/YouGroupSettings.git
         cd YouGroupSettings && make clean package DEBUG=0 FINALPACKAGE=1
         mv packages/*.deb ../ygs.deb
 
@@ -188,7 +223,6 @@ runs:
       if: ${{ inputs.enable_yq == 'true' }}
       shell: bash
       run: |
-        git clone --quiet --depth=1 https://github.com/PoomSmart/YouQuality.git
         cd YouQuality && make clean package DEBUG=0 FINALPACKAGE=1
         mv packages/*.deb ../yq.deb
 
@@ -196,7 +230,6 @@ runs:
       if: ${{ inputs.enable_yq == 'true' || inputs.enable_youpip == 'true' || inputs.enable_ytuhd == 'true' }}
       shell: bash
       run: |
-        git clone --quiet --depth=1 https://github.com/PoomSmart/YTVideoOverlay.git
         cd YTVideoOverlay && make clean package DEBUG=0 FINALPACKAGE=1
         mv packages/*.deb ../ytvo.deb
 
@@ -204,7 +237,6 @@ runs:
       if: ${{ inputs.enable_demc == 'true' }}
       shell: bash
       run: |
-        git clone --quiet --depth=1 https://github.com/therealFoxster/DontEatMyContent.git
         cd DontEatMyContent && make clean package DEBUG=0 FINALPACKAGE=1 ADDITIONAL_CFLAGS=-fcommon
         mv packages/*.deb ../demc.deb
 
