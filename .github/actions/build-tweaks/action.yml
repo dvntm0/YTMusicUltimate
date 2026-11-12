@@ -253,14 +253,17 @@ runs:
       if: ${{ inputs.enable_localization == 'true' }}
       shell: bash
       run: |
+        git clone --quiet -n --depth=1 --filter=tree:0 https://github.com/dayanch96/YTLite ytlite-src
+        git -C ytlite-src sparse-checkout set --no-cone "layout/Library/Application Support/YTLite.bundle"
+        git -C ytlite-src checkout
         mkdir debdir
         dpkg-deb -R ytplus.deb debdir
         rm ytplus.deb
-        find "layout/Library/Application Support/YTLite.bundle" \
+        find "ytlite-src/layout/Library/Application Support/YTLite.bundle" \
           -mindepth 1 -maxdepth 1 -type d -name "*.lproj" -not -name "en.lproj" \
           -exec cp -R "{}" "debdir/Library/Application Support/YTLite.bundle/" \;
         cd debdir/
         find . -type f -not -path "./DEBIAN/*" -exec md5sum {} + | sort -k 2 | sed 's/\.\/\(.*\)/\1/' > DEBIAN/md5sums
         cd ../
         dpkg-deb --root-owner-group -b debdir ytplus.deb
-        rm -rf debdir
+        rm -rf debdir ytlite-src
